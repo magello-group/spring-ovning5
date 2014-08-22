@@ -2,12 +2,17 @@ package se.r2m.spring.ovning5;
 
 import java.io.File;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+
 import org.apache.catalina.Context;
 import org.apache.catalina.Host;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.ContextConfig;
 import org.apache.catalina.startup.Tomcat;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.web.WebApplicationInitializer;
 
 import se.r2m.spring.ovning5.servlet.ListSpringBeansServlet;
 
@@ -17,9 +22,6 @@ public class Main {
         Tomcat tomcat = new Tomcat();
         tomcat.setPort( 8080 );
         Context context = addContext( tomcat.getHost(), "/", new File("WebContent/").getAbsolutePath() );
-    	AnnotationConfigApplicationContext springctx = new AnnotationConfigApplicationContext("se");
-        Tomcat.addServlet( context, "Simple", new ListSpringBeansServlet(springctx) );
-        context.addServletMapping( "/*", "Simple" );
         tomcat.start();
         tomcat.getServer().await();
 	}
@@ -36,5 +38,16 @@ public class Main {
         host.addChild(context);
         return context;
     }
+    
+    public static class AppInitializer implements WebApplicationInitializer {
 
+        @Override
+        public void onStartup(ServletContext context) throws ServletException {
+        	AnnotationConfigApplicationContext springctx = new AnnotationConfigApplicationContext("se");
+        	ServletRegistration.Dynamic dispatcher = 
+        			context.addServlet("Simple", new ListSpringBeansServlet(springctx) );
+		    dispatcher.setLoadOnStartup(1);
+		    dispatcher.addMapping("/*");
+        }
+    }
 }
