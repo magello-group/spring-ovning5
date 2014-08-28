@@ -1,3 +1,10 @@
+INSERT INTO users VALUES (1, 'admin', 'topsecret');
+INSERT INTO users VALUES (2, 'thomas', 'password2');
+INSERT INTO users VALUES (3, 'mikaela', 'password3');
+INSERT INTO users VALUES (4, 'ekkehart', 'password4');
+INSERT INTO users VALUES (5, 'bjorn', 'password5');
+
+
 INSERT INTO vets VALUES (1, 'James', 'Carter');
 INSERT INTO vets VALUES (2, 'Helen', 'Leary');
 INSERT INTO vets VALUES (3, 'Linda', 'Douglas');

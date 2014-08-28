@@ -5,12 +5,19 @@ DROP TABLE visits IF EXISTS;
 DROP TABLE pets IF EXISTS;
 DROP TABLE types IF EXISTS;
 DROP TABLE owners IF EXISTS;
+DROP TABLE users IF EXISTS;
 
 
+
+CREATE TABLE users (
+  id         INTEGER IDENTITY PRIMARY KEY,
+  user_name  VARCHAR(100),
+  password   VARCHAR(100)
+);
 CREATE TABLE vets (
   id         INTEGER IDENTITY PRIMARY KEY,
-  first_name VARCHAR(30),
-  last_name  VARCHAR(30)
+  first_name VARCHAR(100),
+  last_name  VARCHAR(100)
 );
 CREATE INDEX vets_last_name ON vets (last_name);
 
@@ -35,17 +42,17 @@ CREATE INDEX types_name ON types (name);
 
 CREATE TABLE owners (
   id         INTEGER IDENTITY PRIMARY KEY,
-  first_name VARCHAR(30),
-  last_name  VARCHAR(30),
+  first_name VARCHAR(100),
+  last_name  VARCHAR(100),
   address    VARCHAR(255),
-  city       VARCHAR(80),
+  city       VARCHAR(100),
   telephone  VARCHAR(20)
 );
 CREATE INDEX owners_last_name ON owners (last_name);
 
 CREATE TABLE pets (
   id         INTEGER IDENTITY PRIMARY KEY,
-  name       VARCHAR(30),
+  name       VARCHAR(100),
   birth_date DATE,
   type_id    INTEGER NOT NULL,
   owner_id   INTEGER NOT NULL

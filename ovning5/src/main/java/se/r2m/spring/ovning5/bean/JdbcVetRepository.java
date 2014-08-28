@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,20 +30,21 @@ import org.springframework.stereotype.Repository;
 import se.r2m.spring.ovning5.model.Vet;
 
 @Repository
-public class JdbcVetRepository  {
+public class JdbcVetRepository {
 
-    private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    public JdbcVetRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+	@Autowired
+	public JdbcVetRepository(DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
-    public Collection<Vet> findAll() throws DataAccessException {
-        List<Vet> vets = new ArrayList<Vet>();
-        vets.addAll(this.jdbcTemplate.query(
-                "SELECT id, first_name, last_name FROM vets ORDER BY last_name,first_name",
-                ParameterizedBeanPropertyRowMapper.newInstance(Vet.class)));
-        return vets;
-    }
+	public Collection<Vet> findAll() throws DataAccessException {
+		List<Vet> vets = new ArrayList<Vet>();
+		vets.addAll(
+				this.jdbcTemplate.query(
+						"SELECT id, first_name, last_name FROM vets ORDER BY last_name,first_name",
+						ParameterizedBeanPropertyRowMapper.newInstance(Vet.class)));
+		return vets;
+	}
 }

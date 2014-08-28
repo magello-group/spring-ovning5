@@ -29,7 +29,7 @@ public class Main {
 		Context context = tomcat.addContext(tomcat.getHost(), "/", "SpringTutorial", docBase.getAbsolutePath());
 		context.addLifecycleListener(new ContextConfig());
 		context.addServletContainerInitializer(new AppInitializer(), new HashSet<Class<?>>());
-  	    context.setJarScanner(new DoNothingJarScanner());
+		context.setJarScanner(new DoNothingJarScanner());
 		tomcat.start();
 		tomcat.getServer().await();
 	}
@@ -38,7 +38,7 @@ public class Main {
 		@Override
 		public void onStartup(Set<Class<?>> c, ServletContext context) throws ServletException {
 			AnnotationConfigApplicationContext springctx = new AnnotationConfigApplicationContext("se");
-			ServletRegistration.Dynamic dispatcher = 
+			ServletRegistration.Dynamic dispatcher =
 					context.addServlet("SpringTutorialServlet", new ListSpringBeansServlet(springctx));
 			dispatcher.setLoadOnStartup(1);
 			dispatcher.addMapping("/*");
@@ -49,7 +49,7 @@ public class Main {
 		@Override
 		public void scan(JarScanType scanType, ServletContext context, JarScannerCallback callback) {
 		}
-		
+
 		@Override
 		public JarScanFilter getJarScanFilter() {
 			return null;
