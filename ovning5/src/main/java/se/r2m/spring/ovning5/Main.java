@@ -23,7 +23,7 @@ import se.r2m.spring.ovning5.servlet.ListSpringBeansServlet;
 public class Main {
 
 	public static void main(final String[] args) throws Exception {
-		File docBase = new File(System.getProperty("java.io.tmpdir"));
+        File docBase = new File("src/main/resources");
 		Tomcat tomcat = new Tomcat();
 		tomcat.setPort(8080);
 		Context context = tomcat.addContext(tomcat.getHost(), "/", "SpringTutorial", docBase.getAbsolutePath());
