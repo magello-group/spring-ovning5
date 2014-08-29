@@ -29,6 +29,7 @@ public class Main {
 		Context context = tomcat.addContext(tomcat.getHost(), "/", "SpringTutorial", docBase.getAbsolutePath());
 		context.addLifecycleListener(new ContextConfig());
 		context.addServletContainerInitializer(new AppInitializer(), new HashSet<Class<?>>());
+        //context.addServletContainerInitializer(new SpringSecurityInitializer(), new HashSet<Class<?>>());
 		context.setJarScanner(new DoNothingJarScanner());
 		tomcat.start();
 		tomcat.getServer().await();
@@ -38,6 +39,7 @@ public class Main {
 		@Override
 		public void onStartup(Set<Class<?>> c, ServletContext context) throws ServletException {
 			AnnotationConfigApplicationContext springctx = new AnnotationConfigApplicationContext("se");
+            //context.addListener(new ContextLoaderListener(springctx));
 			ServletRegistration.Dynamic dispatcher =
 					context.addServlet("SpringTutorialServlet", new ListSpringBeansServlet(springctx));
 			dispatcher.setLoadOnStartup(1);
@@ -59,4 +61,12 @@ public class Main {
 		public void setJarScanFilter(JarScanFilter jarScanFilter) {
 		}
 	}
+
+//   public static class SpringSecurityInitializer extends AbstractSecurityWebApplicationInitializer implements ServletContainerInitializer {
+//        @Override
+//        public void onStartup(Set<Class<?>> c, ServletContext servletContext) throws ServletException {
+//            onStartup(servletContext);
+//        }
+//    }
+
 }
